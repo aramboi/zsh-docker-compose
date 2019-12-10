@@ -113,10 +113,12 @@ __docker-compose_subcommand() {
                 $opts_help \
                 "*--build-arg=[Set build-time variables for one service.]:<varname>=<value>: " \
                 '--force-rm[Always remove intermediate containers.]' \
+                '(--quiet -q)'{--quiet,-q}'[Curb build output]' \
                 '(--memory -m)'{--memory,-m}'[Memory limit for the build container.]' \
                 '--no-cache[Do not use cache when building the image.]' \
                 '--pull[Always attempt to pull a newer version of the image.]' \
                 '--compress[Compress the build context using gzip.]' \
+                '--parallel[Build images in parallel.]' \
                 '*:services:__docker-compose_services_from_build' && ret=0
             ;;
         (bundle)
@@ -339,7 +341,8 @@ _docker-compose() {
         '(- :)'{-h,--help}'[Get help]' \
         '*'{-f,--file}"[${file_description}]:file:_files -g '*.yml'" \
         '(-p --project-name)'{-p,--project-name}'[Specify an alternate project name (default: directory name)]:project name:' \
-        "--compatibility[If set, Compose will attempt to convert deploy keys in v3 files to their non-Swarm equivalent]" \
+        '--env-file[Specify an alternate environment file (default: .env)]:env-file:_files' \
+        "--compatibility[If set, Compose will attempt to convert keys in v3 files to their non-Swarm equivalent]" \
         '(- :)'{-v,--version}'[Print version and exit]' \
         '--verbose[Show more output]' \
         '--log-level=[Set log level]:level:(DEBUG INFO WARNING ERROR CRITICAL)' \
@@ -357,6 +360,7 @@ _docker-compose() {
     local -a relevant_compose_flags relevant_compose_repeatable_flags relevant_docker_flags compose_options docker_options
 
     relevant_compose_flags=(
+        "--env-file"
         "--file" "-f"
         "--host" "-H"
         "--project-name" "-p"
