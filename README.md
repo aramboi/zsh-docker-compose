@@ -19,4 +19,4 @@ Mirror of https://github.com/docker/compose/tree/master/contrib/completion/zsh f
 See: https://github.com/docker/compose/blob/master/LICENSE
 
 
-[1]: http://antigen.sharats.me/
+[1]: https://antigen.sharats.me/
